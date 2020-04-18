@@ -2,8 +2,11 @@
 import argparse
 
 
-class Arguments():
-    file: str = None
+class Arguments:
+
+    path: str = None
+    config: str = 'config.ini'
+
 
 def parse():
     parser = argparse.ArgumentParser(
@@ -11,11 +14,23 @@ def parse():
     )
 
     parser.add_argument(
-        '-f',
-        '--file',
+        '-p',
+        '--path',
         nargs='?',
-        default=Arguments.file,
+        default=Arguments.path,
         help='file to random fortune from'
+    )
+    parser.add_argument(
+        '-c',
+        '--config',
+        nargs='?',
+        default=Arguments.config,
+        help='config file'
+    )
+    parser.add_argument(
+        'db',
+        nargs='*',
+        help='fortunes db'
     )
 
     return parser.parse_args(namespace=Arguments)
