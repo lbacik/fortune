@@ -8,17 +8,9 @@ from .fortune_source import FortuneSource
 class FortuneAbstract(ABC):
 
     @abstractmethod
-    def get_from_dir(self, path: str) -> str:
+    def get(self, list: Optional[List[FortuneSource]] = None) -> str:
         pass
 
     @abstractmethod
-    def get_from_file_list(self, list: List[str]) -> str:
-        pass
-
-    @abstractmethod
-    def get_from_file(self, file: str) -> str:
-        pass
-
-    @abstractmethod
-    def get(self, list: Optional[List[FortuneSource]]) -> str:
+    def get_from_path(self, path: str) -> str:
         pass
