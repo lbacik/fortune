@@ -1,16 +1,20 @@
 
 from flask import Flask, jsonify
 from ..fortune.factory import Factory
+from ..cli.arguments import parse
 
 
 app = Flask(__name__)
-fortune = Factory.create()
+
+args = parse()
+fortune = Factory.create(args.config)
 
 
-@app.route("/")
-def home():
-    fortune_str = fortune.get_from_file('data/test-fortunes')
+@app.route("/", methods=['GET'])
+def home() -> str:
+    fortune_str = fortune.get()
+    # paramater ?raw
     return jsonify({'fortune': fortune_str})
 
 
-app.run(port=5555)
+app.run(port=5000)
