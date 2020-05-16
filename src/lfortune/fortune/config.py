@@ -28,5 +28,5 @@ class Config:
     @staticmethod
     def _default_fortunes_path() -> str:
         path = os.path.abspath(__file__)
-        path = os.path.abspath(os.path.dirname(path) + '/../../data')
+        path = os.path.abspath(os.path.dirname(path) + '/../data')
         return path

@@ -1,5 +1,5 @@
 
-from .index.data import IndexData
+from ..fortune.index.data import IndexData
 
 
 class Indexer():

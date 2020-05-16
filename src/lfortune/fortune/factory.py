@@ -1,8 +1,8 @@
 
 from ..abstract.fortune import FortuneAbstract
-from .fortune import Fortune
-from .indexer import Indexer
-from .config import Config
+from ..fortune.fortune import Fortune
+from ..fortune.indexer import Indexer
+from ..fortune.config import Config
 
 class Factory:
 

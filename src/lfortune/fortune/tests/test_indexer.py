@@ -1,8 +1,8 @@
 
 import pytest
 
-from src.fortune.indexer import Indexer
-from src.fortune.fortune import Fortune
+from ..indexer import Indexer
+from ..fortune import Fortune
 
 
 def test_index_file_not_exists(fs):

@@ -1,5 +1,5 @@
 
-from .arguments import parse
+from ..cli.arguments import parse
 from ..fortune.factory import Factory
 from ..abstract.fortune_source import FortuneSource
 

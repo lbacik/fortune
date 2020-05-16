@@ -17,5 +17,5 @@ def home() -> str:
     return jsonify({'fortune': fortune_str})
 
 
-# because we are using uwsgi
+# because we use uwsgi
 # app.run(port=5000)

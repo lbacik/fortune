@@ -5,7 +5,7 @@ from ..abstract.fortune import FortuneAbstract
 from ..abstract.fortune_source import FortuneSource
 from .indexer import Indexer
 from random import randrange
-from .config import Config
+from ..fortune.config import Config
 
 
 class Fortune(FortuneAbstract):
