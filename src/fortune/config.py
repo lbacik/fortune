@@ -6,6 +6,7 @@ from configparser import ConfigParser
 class Config:
 
     SECTION_FORTUNES = 'fortunes'
+    ENVITONMENT_VAR_FORTUNES_DIR = 'FORTUNES'
 
     parser: ConfigParser
 
@@ -15,10 +16,13 @@ class Config:
             self.parser.read(config_file)
 
     def fortunes_path(self) -> str:
-        try:
-            result = self.parser[self.SECTION_FORTUNES]['root']
-        except KeyError:
-            result = self._default_fortunes_path()
+        if self.ENVITONMENT_VAR_FORTUNES_DIR in os.environ:
+            result = os.environ.get(self.ENVITONMENT_VAR_FORTUNES_DIR)
+        else:
+            try:
+                result = self.parser[self.SECTION_FORTUNES]['root']
+            except KeyError:
+                result = self._default_fortunes_path()
         return result
 
     @staticmethod
