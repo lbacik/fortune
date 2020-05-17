@@ -1,3 +1,5 @@
 venv
 data/*.dat
 **/__pycache__
+build/
+dist/
