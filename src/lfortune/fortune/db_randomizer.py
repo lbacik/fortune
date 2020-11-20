@@ -1,5 +1,4 @@
 from typing import List, Optional
-
 from ..abstract.fortune_source import FortuneSource
 import random
 

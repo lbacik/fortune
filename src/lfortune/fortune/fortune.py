@@ -1,28 +1,38 @@
 
 import os
 from typing import List, Optional
+
+from .config_values import ConfigValues
+from .drawing_machine import DrawingMachine
 from ..abstract.fortune import FortuneAbstract
 from ..abstract.fortune_source import FortuneSource
 from .indexer import Indexer
 from random import randrange
-from ..fortune.config import Config
 
 
 class Fortune(FortuneAbstract):
 
     SEPARATOR: str = '%\n'
-    config: Config
+    config: ConfigValues
     indexer: Indexer
+    drawing_machine: DrawingMachine
 
-    def __init__(self, config: Config, indexer: Indexer):
+    def __init__(self,
+                 config: ConfigValues,
+                 indexer: Indexer,
+                 validators: list,
+                 drawing_machine: DrawingMachine = None
+                 ):
         self.config = config
         self.indexer = indexer
+        self.validators = validators
+        self.drawing_machine = drawing_machine
 
-    def get(self, list: Optional[List[FortuneSource]] = None) -> str:
-        path = self.config.fortunes_path()
-        if list:
-            path = os.path.join(path, list.pop().source)
-        return self.get_from_path(path)
+    def get(self, sources: Optional[List[FortuneSource]] = None) -> str:
+        validated_list = self._validate(sources)
+        source = self._chose_source(validated_list)
+        fortune_str = self.get_from_path(source.source)
+        return fortune_str
 
     def get_from_path(self, path: str) -> str:
         if os.path.isdir(path):
@@ -31,6 +41,31 @@ class Fortune(FortuneAbstract):
             return self._get_from_file(path)
         raise Exception(f"Path {path} is not a file or directory")
 
+    def _chose_source(self, sources):
+        if sources is None or sources == []:
+            result = FortuneSource(self.config.root_path)
+        elif self.drawing_machine is not None:
+            result = self.drawing_machine.get(sources)
+        else:
+            raise NotImplementedError()
+        return result
+
+    def _validate(self, sources: Optional[List[FortuneSource]] = None) -> List[FortuneSource]:
+        result = sources
+        for validator in self.validators:
+            result = validator.validate(result)
+        return result
+
+    def _chose_path(self, sources: Optional[List[FortuneSource]] = None):
+        result = None
+        if sources:
+            result = sources[0].source
+
+        if not result:
+            result = self.config.root_path
+
+        return result
+
     def _get_from_file(self, file: str) -> str:
         index = self.indexer.index(file)
         i = randrange(0, len(index.indices))
@@ -38,8 +73,10 @@ class Fortune(FortuneAbstract):
 
     def _get_from_dir(self, path: str) -> str:
         files = self._all_files_in_directory(path)
-        i = randrange(0, len(files))
-        return self._get_from_file(files[i])
+        if len(files) > 0:
+            i = randrange(0, len(files))
+            return self._get_from_file(files[i])
+        return ''
 
     def _all_files_in_directory(self, path: str) -> List[str]:
         list_of_files = []
@@ -68,3 +105,4 @@ class Fortune(FortuneAbstract):
             else:
                 fortune_end = True
         return result
+

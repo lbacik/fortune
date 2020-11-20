@@ -4,11 +4,12 @@ from ...abstract.fortune_source import FortuneSource
 
 
 class Probability(Validator):
-    def validate(self, list: Optional[List[FortuneSource]] = None) -> List[FortuneSource]:
+    def validate(self, sources: Optional[List[FortuneSource]] = None) -> Optional[List[FortuneSource]]:
         total = 0
-        for item in list:
-            if item.percentage > 0:
-                total += item.percentage
-                if total > 100:
-                    raise Exception('percentage is over 100%!')
-        return list
+        if sources is not None:
+            for item in sources:
+                if item.percentage > 0:
+                    total += item.percentage
+                    if total > 100:
+                        raise Exception('percentage is over 100%!')
+        return sources

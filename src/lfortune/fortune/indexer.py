@@ -2,7 +2,7 @@
 from ..fortune.index.data import IndexData
 
 
-class Indexer():
+class Indexer:
 
     separator: str
 
