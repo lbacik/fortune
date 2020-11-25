@@ -1,2 +1,3 @@
 flask
 uwsgi
+simple_value_object

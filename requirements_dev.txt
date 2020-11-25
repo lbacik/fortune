@@ -1,0 +1,4 @@
+pytest
+pyfakefs
+pytest-mock
+wheel

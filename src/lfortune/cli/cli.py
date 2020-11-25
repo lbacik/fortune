@@ -1,22 +1,28 @@
-
-from ..cli.arguments import parse
+from lfortune.fortune.config import Config
+from lfortune.fortune.config_values import ConfigValues
+from .arguments import parse
+from .input_parser import input_parse
 from ..fortune.factory import Factory
-from ..abstract.fortune_source import FortuneSource
+
+
+def get_config_values(args, config: Config) -> ConfigValues:
+    if args.path:
+        root_path = args.path
+    else:
+        root_path = config.fortunes_path()
+
+    return ConfigValues(root_path)
 
 
 def run():
     args = parse()
-    fortune = Factory.create(args.config)
-    if args.path:
-        result = fortune.get_from_path(args.path)
-    elif args.db:
-        l = []
-        for name in args.db:
-            l.append(FortuneSource(name))
-        result = fortune.get(l)
-    else:
-        result = fortune.get()
+    config = Config(args.config)
+    config_values = get_config_values(args, config)
 
+    fortune = Factory.create(config_values)
+    sources = input_parse(args.db, config_values.root_path)
+
+    result = fortune.get(sources)
     print(result, end='')
 
 
