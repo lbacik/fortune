@@ -2,3 +2,4 @@ pytest
 pyfakefs
 pytest-mock
 wheel
+twine
