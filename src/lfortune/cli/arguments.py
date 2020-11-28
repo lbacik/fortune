@@ -5,7 +5,7 @@ import argparse
 class Arguments:
 
     path: str = None
-    config: str = 'config.ini'
+    config: str = "~/.config/lfortune/config.ini"
 
 
 def parse():
@@ -26,6 +26,12 @@ def parse():
         nargs='?',
         default=Arguments.config,
         help='config file'
+    )
+    parser.add_argument(
+        '--copy-config',
+        nargs='?',
+        const=Arguments.config,
+        help='copy config file'
     )
     parser.add_argument(
         'db',
