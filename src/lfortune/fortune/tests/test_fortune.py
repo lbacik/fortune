@@ -11,7 +11,7 @@ def fortune_without_drawing_machine():
     config = ConfigValues('/')
     indexer = Indexer(Fortune.SEPARATOR)
     validators = []
-    return Fortune(config, indexer, validators)
+    return Fortune(None, config, indexer, validators)
 
 
 @pytest.fixture
@@ -24,7 +24,7 @@ def fortune():
         drawing_machine = MockClass.return_value
         drawing_machine.get.return_value = FortuneSource('/test', 100)
 
-    return Fortune(config, indexer, validators, drawing_machine)
+    return Fortune(None, config, indexer, validators, drawing_machine)
 
 
 def test_get(fortune_without_drawing_machine, fs):

@@ -1,16 +1,20 @@
 import random
 from typing import Optional, List
+
+from .normalize_source_list import normalize_percentage
 from ...abstract.fortune_source import FortuneSource
-from ..drawing_machines import DrawingMachine
+from ..drawing_machine import DrawingMachine
 
 
 class Simple(DrawingMachine):
 
-    def get(self, sources: Optional[List[FortuneSource]] = None) -> FortuneSource:
-        result = None
-        number = random.randint(0, 100)
-        progress = 0
-        for item in sources:
+    def get(self, sources: List[FortuneSource]) -> Optional[FortuneSource]:
+        sources_copy: List[FortuneSource] = normalize_percentage(sources)
+        result: Optional[FortuneSource] = None
+        number: int = random.randint(0, 100)
+        progress: int = 0
+
+        for item in sources_copy:
             progress += item.percentage
             if number < progress:
                 result = item
