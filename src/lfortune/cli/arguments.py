@@ -10,7 +10,7 @@ class Arguments:
 
 def parse():
     parser = argparse.ArgumentParser(
-        epilog='2020 Łukasz Bacik <mail@luka.sh> https://github.com/lbacik'
+        epilog='2020 Łukasz Bacik <mail@luka.sh> https://github.com/lbacik/fortune'
     )
 
     parser.add_argument(
@@ -18,25 +18,35 @@ def parse():
         '--path',
         nargs='?',
         default=Arguments.path,
-        help='file to random fortune from'
+        help='file to random fortune from (overrides the root_path)'
     )
     parser.add_argument(
         '-c',
         '--config',
         nargs='?',
         default=Arguments.config,
-        help='config file'
+        help='config file to use'
     )
     parser.add_argument(
         '--copy-config',
         nargs='?',
         const=Arguments.config,
-        help='copy config file'
+        help=f"copy config file. You can provide the dest, the default is {Arguments.config}"
+    )
+    parser.add_argument(
+        '--show-config',
+        action='store_true',
+        help='show settings and exit'
+    )
+    parser.add_argument(
+        '--show-fortunes',
+        action='store_true',
+        help='show fortunes'
     )
     parser.add_argument(
         'db',
         nargs='*',
-        help='fortunes db'
+        help='fortunes db (only the first positional argument is used)'
     )
 
     return parser.parse_args(namespace=Arguments)
