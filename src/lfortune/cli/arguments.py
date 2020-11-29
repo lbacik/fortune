@@ -1,9 +1,9 @@
-
 import argparse
+
+from lfortune.fortune.config import Config
 
 
 class Arguments:
-
     path: str = None
     config: str = "~/.config/lfortune/config.ini"
 
@@ -18,7 +18,8 @@ def parse():
         '--path',
         nargs='?',
         default=Arguments.path,
-        help='file to random fortune from (overrides the root_path)'
+        help='file/directory to get random fortune from (overrides the root_path, '
+             f'it can be also set as {Config.ENVIRONMENT_VAR_FORTUNES_DIR} environment variable)'
     )
     parser.add_argument(
         '-c',
@@ -31,7 +32,7 @@ def parse():
         '--copy-config',
         nargs='?',
         const=Arguments.config,
-        help=f"copy config file. You can provide the dest, the default is {Arguments.config}"
+        help=f'copy config file. You can provide the dest, the default is {Arguments.config}'
     )
     parser.add_argument(
         '--show-config',
@@ -41,12 +42,14 @@ def parse():
     parser.add_argument(
         '--show-fortunes',
         action='store_true',
-        help='show fortunes'
+        help='show fortunes (only the first positional argument is used)'
     )
     parser.add_argument(
         'db',
         nargs='*',
-        help='fortunes db (only the first positional argument is used)'
+        help='''fortunes db(s) - file(s)/directory(ies) (without root_path), 
+             optionally prepended with a percentage chance of a hit, e.g:
+             lfortune 50%% computers art 40%% tao (in this example art will have 10%%)'''
     )
 
     return parser.parse_args(namespace=Arguments)
