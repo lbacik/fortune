@@ -1,6 +1,7 @@
 
 import os
 from configparser import ConfigParser
+from typing import Optional
 
 
 class Config:
@@ -10,7 +11,7 @@ class Config:
 
     parser: ConfigParser
 
-    def __init__(self, config_file: str):
+    def __init__(self, config_file: Optional[str]):
         self.parser = ConfigParser()
         if config_file:
             self.parser.read(config_file)

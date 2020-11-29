@@ -1,29 +1,37 @@
-from lfortune.fortune.config import Config
-from lfortune.fortune.config_values import ConfigValues
+from os import path
 from .arguments import parse
 from .input_parser import input_parse
+from .functions import *
+from ..fortune.config import Config
 from ..fortune.factory import Factory
-
-
-def get_config_values(args, config: Config) -> ConfigValues:
-    if args.path:
-        root_path = args.path
-    else:
-        root_path = config.fortunes_path()
-
-    return ConfigValues(root_path)
 
 
 def run():
     args = parse()
-    config = Config(args.config)
+
+    if args.copy_config:
+        copy_config_file(args)
+        exit(0)
+
+    config = Config(path.expanduser(args.config))
     config_values = get_config_values(args, config)
+
+    if args.show_config:
+        show_config_settings(config_values)
+        exit(0)
+
+    if args.show_fortunes:
+        show_fortunes(config_values, args.db)
+        exit(0)
 
     fortune = Factory.create(config_values)
     sources = input_parse(args.db, config_values.root_path)
 
-    result = fortune.get(sources)
-    print(result, end='')
+    try:
+        result = fortune.get(sources)
+        print(result, end='')
+    except ValueError as e:
+        print(e)
 
 
 if __name__ == '__main__':

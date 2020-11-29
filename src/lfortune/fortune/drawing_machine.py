@@ -6,5 +6,5 @@ from ..abstract.fortune_source import FortuneSource
 class DrawingMachine(ABC):
 
     @abstractmethod
-    def get(self, sources: Optional[List[FortuneSource]] = None) -> FortuneSource:
+    def get(self, sources: List[FortuneSource]) -> Optional[FortuneSource]:
         pass

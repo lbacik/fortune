@@ -8,21 +8,25 @@ from ..abstract.fortune import FortuneAbstract
 from ..abstract.fortune_source import FortuneSource
 from .indexer import Indexer
 from random import randrange
+from logging import Logger
 
 
 class Fortune(FortuneAbstract):
 
     SEPARATOR: str = '%\n'
-    config: ConfigValues
-    indexer: Indexer
-    drawing_machine: DrawingMachine
+    # logger: Logger
+    # config: ConfigValues
+    # indexer: Indexer
+    # drawing_machine: DrawingMachine
 
     def __init__(self,
+                 logger: Optional[Logger],
                  config: ConfigValues,
                  indexer: Indexer,
                  validators: list,
                  drawing_machine: DrawingMachine = None
                  ):
+        self.logger = logger
         self.config = config
         self.indexer = indexer
         self.validators = validators
@@ -31,6 +35,8 @@ class Fortune(FortuneAbstract):
     def get(self, sources: Optional[List[FortuneSource]] = None) -> str:
         validated_list = self._validate(sources)
         source = self._chose_source(validated_list)
+        if source is None:
+            raise ValueError('ERROR: Source is empty :(')
         fortune_str = self.get_from_path(source.source)
         return fortune_str
 
