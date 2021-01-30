@@ -7,13 +7,12 @@ def input_parse(input_db: Optional[List[str]], prefix: str = '') -> List[Fortune
     probability: int = 0
 
     if input_db is not None:
-        for string in input_db:
-            if type(string) == str and len(string) > 0:
-                if string[-1] == '%':
-                    probability = int(string[:-1])
+        for source in input_db:
+            if type(source) == str and len(source) > 0:
+                if source[-1] == '%':
+                    probability = int(source[:-1])
                 else:
-                    path = '/'.join([prefix, string]) if prefix != '' else string
-                    item = FortuneSource(path, probability)
+                    item = FortuneSource(source, probability)
                     result.append(item)
                     probability = 0
 
