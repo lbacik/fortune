@@ -123,5 +123,5 @@ def test_data():
 def test_path():
     result = input_parse(['foo'], '/bar')
     assert result == [
-        FortuneSource('/bar/foo')
+        FortuneSource('foo')
     ]
