@@ -1,6 +1,7 @@
 # Fortune
 
 ![Python application](https://github.com/lbacik/fortune/workflows/Python%20application/badge.svg)
+[![codecov](https://codecov.io/gh/lbacik/fortune/branch/master/graph/badge.svg?token=W8LPOUVRSX)](https://codecov.io/gh/lbacik/fortune)
 
 This project has been made (and it is maintained and developed) for fun! It allows the user to play with "fortunes" files 
 in a very similar way to the original one (https://en.wikipedia.org/wiki/Fortune_(Unix)); however, a few new features 
