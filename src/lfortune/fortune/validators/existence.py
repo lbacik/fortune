@@ -13,7 +13,7 @@ class Existence(Validator):
                  config: Optional[ConfigValues] = None
                  ) -> Optional[List[FortuneSource]]:
         result: Optional[List[FortuneSource]] = None
-        root_path = config.root_path if config != None else ''
+        root_path: str = config.root_path if config is not None else ''
         if sources is not None:
             result = []
             for item in sources:
