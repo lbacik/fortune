@@ -29,10 +29,11 @@ def run():
 
     try:
         result = fortune.get(sources)
-        print(result, end='')
-    except ValueError as e:
-        print(e)
-
+        print(result.fortune, end='')
+        if args.show_fortune_data is True:
+            print(f"[{result.file} / {result.index}]")
+    except Exception as exception:
+        print(exception)
 
 if __name__ == '__main__':
     run()

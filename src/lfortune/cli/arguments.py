@@ -45,6 +45,11 @@ def parse():
         help='show fortunes (only the first positional argument is used)'
     )
     parser.add_argument(
+        '--show-fortune-data',
+        action='store_true',
+        help='show additional information about displayed fortune (file/index)'
+    )
+    parser.add_argument(
         'db',
         nargs='*',
         help='''fortunes db(s) - file(s)/directory(ies) (without root_path), 

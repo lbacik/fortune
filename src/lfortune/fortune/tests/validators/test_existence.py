@@ -1,3 +1,5 @@
+import pytest
+
 from lfortune.abstract.fortune_source import FortuneSource
 from lfortune.fortune.validators.existence import Existence
 
@@ -14,24 +16,25 @@ def test_file_exists(fs):
     fs.create_file('/test.txt')
     fs.create_file('/test2/foo.txt')
     sources = [
-        FortuneSource('/test.txt'),
-        FortuneSource('/test2'),
+        FortuneSource('test.txt'),
+        FortuneSource('test2'),
     ]
     assert sources == Existence().validate(sources)
 
 
 def test_file_doesnt_exist(fs):
-    assert [] == Existence().validate([
-        FortuneSource('/test.txt'),
-        FortuneSource('/test/foo.txt'),
-    ])
+    with pytest.raises(FileNotFoundError):
+        Existence().validate([
+            FortuneSource('test10.txt'),
+        ])
 
 
 def test_mixed(fs):
     fs.create_file('/test.txt')
     fs.create_file('/test2/foo.txt')
     sources = [
-        FortuneSource('/test.txt'),
-        FortuneSource('/test3'),
+        FortuneSource('test.txt'),
+        FortuneSource('test3'),
     ]
-    assert [FortuneSource('/test.txt')] == Existence().validate(sources)
+    with pytest.raises(FileNotFoundError):
+        Existence().validate(sources)
