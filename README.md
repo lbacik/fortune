@@ -3,14 +3,18 @@
 ![Python application](https://github.com/lbacik/fortune/workflows/Python%20application/badge.svg)
 [![codecov](https://codecov.io/gh/lbacik/fortune/branch/master/graph/badge.svg?token=W8LPOUVRSX)](https://codecov.io/gh/lbacik/fortune)
 
-This project has been made (and it is maintained and developed) for fun! It allows the user to play with "fortunes" files 
-in a very similar way to the original one (https://en.wikipedia.org/wiki/Fortune_(Unix)); however, a few new features 
-are planned!
+Program allows to play with fortunes files in a very similar way to the original "fortune" app 
+(https://en.wikipedia.org/wiki/Fortune_(Unix)); however, a few new features are planned!
+
+I have used "l" as a prefix for the console program version as the "fortune" name is already taken on PyPI.
 
 ## Installation
 
-For python3 (I have used "l" as a prefix for the console program version name to avoid conflicts with the original 
-`fortune` application):
+### PyPI
+
+https://pypi.org/project/lfortune/
+
+For python3:
 
     pip install lfortune
     
@@ -18,25 +22,30 @@ or (when the python2 is also installed):
 
     pip3 install lfortune
 
-You can also use the docker build to run the app (it includes actual debian's fortunes package) - the docker images
-are built with code from project's master branch):
+You will need to separately install the fortunes file(s) and appropriately configure the app (see below) - to point 
+where it can find these file(s).
+
+### Docker image
+
+https://hub.docker.com/r/lbacik/fortune
+
+There is set an automated build on dockerhub for the project's master branch. This build includes the debian's fortunes 
+package (stable release).
 
     docker run --rm lbacik/fortune 
 
-### Build the docker image for the other branch than master one
+### Build the docker image locally
 
     git clone git@github.com:lbacik/fortune.git
-    git checkout develop
+    git checkout BRANCH
     docker build -t fortune:local . 
 
 ## Usage
-
-First of all you will need the fortunes files! 
-
+ 
 ### docker
 
 If you are using docker image - it already contains the fortune package, however, there is still a few packages/sets 
-which you can add/try - check the `apt search fortune` ;)).
+which you can add/try - check the `apt search fortune` ;).
 
 To get to bash prompt in docker image say:
 
@@ -44,9 +53,11 @@ To get to bash prompt in docker image say:
 
 ### macOS
 
-You can install the original fortune program (and fortune's data files) with `brew` by:
+You can install the original fortune's data files with `brew` (of course it also contains the "fortune" program):
 
     brew install fortune 
+
+Next see the "configuration" section (below).
 
 ### other 
 
@@ -88,7 +99,7 @@ To get help:
 
 ## Configuration
 
-The lfortune app (installed locally) will have to know where it can find the fortunes data files. 
+The `lfortune` app (installed locally) will have to know where it can find the fortunes data files. 
 This information can be pass to the app on various ways:
 
 **1. by the** `-p` **argument** 
@@ -109,8 +120,8 @@ You can check where they had been copied by:
     $ ls /usr/local/Cellar/fortune/9708/share/games/fortunes  
     ... a lot of files...
      
- the fortune's data files can be found at `/usr/local/Cellar/fortune/9708/share/games/fortunes`, 
- so you can get the random fortune by: 
+ So, the fortune's data files can be found at `/usr/local/Cellar/fortune/9708/share/games/fortunes`, 
+ in such a case you can get the random fortune by: 
  
     $ lfortune -p /usr/local/Cellar/fortune/9708/share/games/fortunes       
  
@@ -127,7 +138,7 @@ You can check where they had been copied by:
  
     $ lfortune --copy-config
     
-Then the file is available in: `~/.config/lfortune/config.ini` - you can set the fortune's data dir by setting 
+Then the file is available at `~/.config/lfortune/config.ini` - you can set the fortune's data dir by setting 
 the `root` parameter.    
  
 ## Examples
