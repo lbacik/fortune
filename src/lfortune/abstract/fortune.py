@@ -10,5 +10,5 @@ from .fortune_source import FortuneSource
 class FortuneAbstract(ABC):
 
     @abstractmethod
-    def get(self, list: Optional[List[FortuneSource]] = None) -> FortuneData:
+    def get(self, list: Optional[List[FortuneSource]] = None, index: Optional[int] = None) -> FortuneData:
         pass

@@ -29,12 +29,12 @@ class Fortune(FortuneAbstract):
         self.validators = validators
         self.drawing_machine = drawing_machine
 
-    def get(self, sources: Optional[List[FortuneSource]] = None) -> FortuneData:
+    def get(self, sources: Optional[List[FortuneSource]] = None, index: Optional[int] = None) -> FortuneData:
         validated_list = self._validate(sources)
         source = self._chose_source(validated_list)
         if source is None:
             raise ValueError('ERROR: Source is empty :(')
-        result_with_full_path_to_source: FortuneData = self._get_from_source(source.source)
+        result_with_full_path_to_source: FortuneData = self._get_from_source(source.source, index)
 
         return self._remove_root_path_from_source(result_with_full_path_to_source)
 
@@ -49,7 +49,7 @@ class Fortune(FortuneAbstract):
             fortune_data.index
         )
 
-    def _get_from_source(self, source: str) -> FortuneData:
+    def _get_from_source(self, source: str, index: Optional[int] = None) -> FortuneData:
         full_path: str = self.config.root_path
         if source:
             if full_path[-1] == '/':
@@ -60,7 +60,7 @@ class Fortune(FortuneAbstract):
         if os.path.isdir(full_path):
             return self._get_from_dir(full_path)
         elif os.path.isfile(full_path):
-            return self._get_from_file(full_path)
+            return self._get_from_file(full_path, index)
         raise Exception(f"Cannot find db: {source}")
 
     def _chose_source(self, sources):
@@ -88,9 +88,11 @@ class Fortune(FortuneAbstract):
 
         return result
 
-    def _get_from_file(self, file: str) -> FortuneData:
+    def _get_from_file(self, file: str, index_requested: Optional[int] = None) -> FortuneData:
+        i = index_requested
         index = self.indexer.index(file)
-        i = randrange(0, len(index.indices))
+        if i is None:
+            i = randrange(0, len(index.indices))
         fortune: str = self._read_fortune(file, index.indices[i])
         return FortuneData(fortune, file, i)
 
