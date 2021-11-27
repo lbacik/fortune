@@ -28,12 +28,13 @@ def run():
     sources = input_parse(args.db, config_values.root_path)
 
     try:
-        result = fortune.get(sources)
+        result = fortune.get(sources, None if args.index is None else int(args.index))
         print(result.fortune, end='')
         if args.show_fortune_data is True:
             print(f"[{result.file} / {result.index}]")
     except Exception as exception:
         print(exception)
+
 
 if __name__ == '__main__':
     run()

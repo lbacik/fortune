@@ -50,6 +50,11 @@ def parse():
         help='show additional information about displayed fortune (file/index)'
     )
     parser.add_argument(
+        '--index',
+        nargs='?',
+        help='index of the fortune in the provided fortune\'s db'
+    )
+    parser.add_argument(
         'db',
         nargs='*',
         help='''fortunes db(s) - file(s)/directory(ies) (without root_path), 
