@@ -1,1 +1,1 @@
-simple_value_object
+simple_value_object==1.5
